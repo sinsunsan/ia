@@ -1,0 +1,5 @@
+; $Id$
+name = ia
+description = Common utilies used by IA images www.ia-image.com sites
+core = 6.x
+

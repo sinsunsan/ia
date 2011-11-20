@@ -1,0 +1,142 @@
+<?php
+/**
+ * Helper function to check if the display need to be altered for this user
+ * 
+ * @return 
+ * TRUE if the alteration is required, FALSE if not
+*/
+function _ia_alter_form_check() {
+  global $user;
+
+  $alter_like = variable_get('edi_form_alter' , 0);
+
+  //dsm('le uid est de  ' . $user->uid);
+  //dsm('la permission administer edi a été évalué à ' . user_access('administer edi'));
+  //Even for user n°1 and technical administrator of EDI site if alter is checked the alteration is done
+  if ($user->uid == 1 || user_access('administer edi')) {
+     //dsm('la valeur de edi_form_alter est de ' . $alter_like);
+     if ($alter_like == 1) {
+       return (TRUE);
+     }
+     else {
+       return (FALSE);
+     } 
+   }
+   else {
+     return (FALSE);
+   }
+}
+
+/**
+ * Common form simplification for some forms and some users (called from hook_form_alter)
+ * To hide form element we use #access property
+ * To check which user see a simplified form version we check 'view simplified forms' permission
+ * 
+ * @param $form 
+ *   An associative array containing the structure of the form.
+ * @param hide_fields 
+ *   An array of additional fields to hide
+ * @param hide_fields1
+ *   A multidimensional array that pass the fields keys to deny the access
+*/
+ function _ia_form_simplify(&$form, $hide_fields = array(), $hide_fields1 = array()) {
+   if (user_access('view simplified forms')) {
+     
+      //Champs standards qui sont tout le temps cachés
+      // Le module node form settings solutionne ces réglages
+      // Il est préférables qu'il soient fait en interface
+      // Donc quand un element est réglages on le descative dans le module
+      //http://drupal.org/project/nodeformsettings
+      /* $hide_deprecated = array (
+        // Révision
+        array('revision_information'),
+        
+      );*/
+      $hide_plus = array (
+        // Auhtoring : pouvoir changer l'auteur
+        array('author'),
+        
+        // Promote to home page 
+        array('options','promote'),
+        // Sticky at the top of the list 
+        array('options', 'sticky'),
+        // Bouton preview
+        array('buttons', 'preview'),
+        
+      );
+      
+      $hide_fields1 = array_merge ($hide_fields1, $hide_plus);
+  
+      
+      // Champs spécifique au type de contenu caché à la demande  
+      foreach ($hide_fields as $key => $field_name) {
+        $form[$field_name]['#access'] = FALSE;
+      }
+      
+      // Deuxième interprétation pour passer des arguments à plusieurs clés
+      if($hide_fields1){
+        //dsm($hide_fields1);
+        // The function works with 4 dimensions of array
+        // todo generalize it to whatever dimensions
+        foreach($hide_fields1 as $key => $array){
+          switch (count($array)) {
+            case 1:
+                $form[$array[0]]['#access'] = FALSE;  
+            break; 
+            case 2:
+              $form[$array[0]][$array[1]]['#access'] = FALSE;  ;
+            break;
+            case 3:
+              $form[$array[0]][$array[1]][$array[2]]['#access'] = FALSE;     
+            break;
+            case 4:
+              $form[$array[0]][$array[1]][$array[2]][$array[3]]['#access'] = FALSE;     
+            break;
+          }
+        }
+      }
+    }
+ }
+
+/**
+ * Overide the width of input form element (to quickly change their value)
+ * 
+ * @param $form 
+ *   An associative array containing the structure of the form.
+ * @return
+ *   Nothing : modify the form 
+*/
+function _ia_form_resize(&$form) {
+  //@todo don't work to test why
+  //Champs nom 
+  //Champs prénom
+  $resize = array(array('size' => 10 , 'name' => array('field_edi_user_nom' , 'field_edi_user_prenom')));
+  //dsm ($resize);
+  foreach ($resize as $key => $array) {
+    foreach ($array['name'] as $key1 => $field_name) {
+        //dsm ($field_name);
+        //dsm ($array['size']);
+        $form[$field_name]['#size'] = $array['size'];
+       //$form['field_edi_user_nom'][0]['#size'] = $array['size'];
+    }
+  }
+}
+
+/**
+ * Give a special class to a span of fields to make them float
+ *
+ * @param $form 
+ *   An associative array containing the structure of the form.
+ * @param $fields
+ *   An array of fields name the key being the first field to float, the value the last on
+ * @return
+ *   Nothing.
+*/
+function _ia_form_float(&$form, $fields) {
+  foreach ($fields as $first => $last) {
+    //dsm ($last);
+    $form[$first][0]['#prefix'] = '<div class="ia_fields_group">';
+    $form[$last][0]['#suffix'] = '</div>';
+  }
+}
+
