@@ -5,6 +5,19 @@
  * @return 
  * TRUE if the alteration is required, FALSE if not
 */
+
+
+/**
+ * Implementation of hook_perm().
+ *
+ * Add specifi IA Permission
+ */
+function ia_perm() {
+  return array('view simplified forms');
+}
+
+
+
 function _ia_alter_form_check() {
   global $user;
 
@@ -42,16 +55,9 @@ function _ia_alter_form_check() {
  function _ia_form_simplify(&$form, $hide_fields = array(), $hide_fields1 = array()) {
    if (user_access('view simplified forms')) {
      
-      //Champs standards qui sont tout le temps cachés
-      // Le module node form settings solutionne ces réglages
-      // Il est préférables qu'il soient fait en interface
-      // Donc quand un element est réglages on le descative dans le module
-      //http://drupal.org/project/nodeformsettings
-      /* $hide_deprecated = array (
-        // Révision
-        array('revision_information'),
-        
-      );*/
+     /*
+     // A enlever car pas géneralisable
+     
       $hide_plus = array (
         // Auhtoring : pouvoir changer l'auteur
         array('author'),
@@ -66,7 +72,7 @@ function _ia_alter_form_check() {
       );
       
       $hide_fields1 = array_merge ($hide_fields1, $hide_plus);
-  
+      */
       
       // Champs spécifique au type de contenu caché à la demande  
       foreach ($hide_fields as $key => $field_name) {
