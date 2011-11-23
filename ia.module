@@ -1,10 +1,5 @@
 <?php
-/**
- * Helper function to check if the display need to be altered for this user
- * 
- * @return 
- * TRUE if the alteration is required, FALSE if not
-*/
+
 
 
 /**
@@ -17,28 +12,6 @@ function ia_perm() {
 }
 
 
-
-function _ia_alter_form_check() {
-  global $user;
-
-  $alter_like = variable_get('edi_form_alter' , 0);
-
-  //dsm('le uid est de  ' . $user->uid);
-  //dsm('la permission administer edi a été évalué à ' . user_access('administer edi'));
-  //Even for user n°1 and technical administrator of EDI site if alter is checked the alteration is done
-  if ($user->uid == 1 || user_access('administer edi')) {
-     //dsm('la valeur de edi_form_alter est de ' . $alter_like);
-     if ($alter_like == 1) {
-       return (TRUE);
-     }
-     else {
-       return (FALSE);
-     } 
-   }
-   else {
-     return (FALSE);
-   }
-}
 
 /**
  * Common form simplification for some forms and some users (called from hook_form_alter)
@@ -104,29 +77,6 @@ function _ia_alter_form_check() {
     }
  }
 
-/**
- * Overide the width of input form element (to quickly change their value)
- * 
- * @param $form 
- *   An associative array containing the structure of the form.
- * @return
- *   Nothing : modify the form 
-*/
-function _ia_form_resize(&$form) {
-  //@todo don't work to test why
-  //Champs nom 
-  //Champs prénom
-  $resize = array(array('size' => 10 , 'name' => array('field_edi_user_nom' , 'field_edi_user_prenom')));
-  //dsm ($resize);
-  foreach ($resize as $key => $array) {
-    foreach ($array['name'] as $key1 => $field_name) {
-        //dsm ($field_name);
-        //dsm ($array['size']);
-        $form[$field_name]['#size'] = $array['size'];
-       //$form['field_edi_user_nom'][0]['#size'] = $array['size'];
-    }
-  }
-}
 
 /**
  * Give a special class to a span of fields to make them float
