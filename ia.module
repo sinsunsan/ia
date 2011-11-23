@@ -105,7 +105,7 @@ function _ia_form_float(&$form, $fields) {
  *   An array of fields name 
  *
 */
-function _ia_filefields_simplify(&$form, $fields) {
+function _ia_multiplefields_simplify(&$form, $fields) {
   foreach ($fields as $key => $field_name) {
     //dsm($form[$field_name]);
     
