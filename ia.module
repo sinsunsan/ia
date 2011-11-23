@@ -105,7 +105,7 @@ function _ia_form_float(&$form, $fields) {
  *   An array of fields name 
  *
 */
-function _ia_filefields_simplify(&$form, $fields) {
+function _ia_multiplefields_simplify(&$form, $fields) {
   foreach ($fields as $key => $field_name) {
     //dsm($form[$field_name]);
     
@@ -114,8 +114,14 @@ function _ia_filefields_simplify(&$form, $fields) {
     // loop to test the existence of up to 20 fields and unset the empty one
     // The user should use the add another button to add more.
     for ($i=1 ; $i<20 ; $i++){
-      if (isset($form[$field_name][$i]) and $form[$field_name][$i]['#default_value']['fid'] == 0) {
-          unset($form[$field_name][$i]);
+      if (isset($form[$field_name][$i]) AND (
+       // Filefields case
+       $form[$field_name][$i]['#default_value']['fid'] == 0 
+       OR
+       // Node reference case
+       $form[$field_name][$i]['#default_value']['nid'] == NULL
+       )) {
+         unset($form[$field_name][$i]);
       }
     }  
   }
