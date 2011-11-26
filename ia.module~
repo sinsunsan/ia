@@ -92,13 +92,13 @@ function _ia_form_float(&$form, $fields) {
     // All fields don't have numeric keys 
     // surely those with more than one value (to check)
     // We add the ia_fields_group class and make a wrapping div
-    if (isset($form[$first][0])){
+    if (isset($form[$first][0]) {
       $form[$first][0]['#prefix'] = '<div class="ia_fields_group">';
     }else{
       $form[$first]['#prefix'] = '<div class="ia_fields_group">';
     }
     // We add the closing div
-    if (isset($form[$last][0])) {
+    if (isset($form[$last][0]) {
       $form[$last][0]['#suffix'] = '</div>';
     }else{
       $form[$last]['#suffix'] = '</div>';
