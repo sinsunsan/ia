@@ -1,0 +1,6 @@
+; $Id$
+name = ia multifields
+description = Provide a way to hide empty multifields
+core = 6.x
+package = "IA"
+dependencies[] = ia
