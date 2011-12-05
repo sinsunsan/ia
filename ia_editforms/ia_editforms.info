@@ -1,0 +1,6 @@
+; $Id$
+name = ia editforms
+description = Some common UI enhancement to node edit forms
+core = 6.x
+package = "IA"
+dependencies[] = ia
