@@ -26,25 +26,6 @@ function ia_perm() {
 function _ia_form_simplify(&$form, $hide_fields = array(), $hide_fields1 = array()) {
    if (user_access('view simplified forms')) {
      
-     /*
-     // A enlever car pas géneralisable
-     
-      $hide_plus = array (
-        // Auhtoring : pouvoir changer l'auteur
-        array('author'),
-        
-        // Promote to home page 
-        array('options','promote'),
-        // Sticky at the top of the list 
-        array('options', 'sticky'),
-        // Bouton preview
-        array('buttons', 'preview'),
-        
-      );
-      
-      $hide_fields1 = array_merge ($hide_fields1, $hide_plus);
-      */
-      
       // Champs spécifique au type de contenu caché à la demande  
       foreach ($hide_fields as $key => $field_name) {
         $form[$field_name]['#access'] = FALSE;
