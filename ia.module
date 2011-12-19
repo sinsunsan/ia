@@ -129,4 +129,32 @@ function _ia_multiplefields_simplify(&$form, $fields) {
   }// end of foreach
 } 
  
+/**
+ * Check if the connected user has one of the roles passed in argument 
+ *
+ * It pass the array of roles in argument and return TRUE 
+ * When it identify the first valid rid
+ *
+ * @param An array of rid that we want to check
+ *
+ * @return TRUE if the user have one of this rid
+ *
+*/
+ 
+function _ia_has_role($roles) {
+  global $user;
+  $user_rid = array_keys($user->roles);
+  
+  if (!is_array($roles)){$roles = array($roles);}
+  foreach ($roles as $key => $rid){
+    //dsm($rid);
+    //dsm($user_rid);
+    if (in_array($rid,$user_rid)){
+        //dsm('le role a été trouvé');
+       return TRUE;
+    }else{
+       return FALSE;
+    } 
+  }
+}
  
