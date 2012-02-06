@@ -136,13 +136,18 @@ function _ia_multiplefields_simplify(&$form, $fields) {
  * When it identify the first valid rid
  *
  * @param An array of rid that we want to check
+ * @param An optional $user object
  *
  * @return TRUE if the user have one of this rid
  *
 */
  
-function _ia_has_role($roles) {
-  global $user;
+function _ia_has_role($roles , &$user = NULL) {
+  // If the $user_uid is set 
+  // We load the $user
+  if (!$user){
+    global $user; 
+  }
   $user_rid = array_keys($user->roles);
   
   if (!is_array($roles)){$roles = array($roles);}
