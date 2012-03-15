@@ -150,16 +150,20 @@ function _ia_has_role($roles , &$user = NULL) {
   }
   $user_rid = array_keys($user->roles);
   
-  if (!is_array($roles)){$roles = array($roles);}
-  foreach ($roles as $key => $rid){
-    //dsm($rid);
-    //dsm($user_rid);
-    if (in_array($rid,$user_rid)){
-        //dsm('le role a été trouvé');
-       return TRUE;
-    }else{
-       return FALSE;
-    } 
+  if (is_array($user_rid)){
+    if (!is_array($roles)){$roles = array($roles);}
+    foreach ($roles as $key => $rid){
+      //dsm($rid);
+      //dsm($user_rid);
+      if (in_array($rid,$user_rid)){
+          //dsm('le role a été trouvé');
+         return TRUE;
+      }else{
+         return FALSE;
+      }
+    }
+  }else{
+    return FALSE;
   }
 }
  
