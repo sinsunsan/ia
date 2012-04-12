@@ -13,7 +13,7 @@ function ia_multifields_form_alter(&$form, $form_state, $form_id) {
   
   // If we are in the edit form of in a valid field
   if ($form_id === 'content_field_edit_form'  && isset($form['#field']) && (in_array ($form['#field']['module'], $valid_fields))) {
-    // dsm("the form is valid");
+    dsm("the form is valid");
     
     // We define the new form element
     $form['field']['ia_multifields'] = array(
@@ -28,13 +28,11 @@ function ia_multifields_form_alter(&$form, $form_state, $form_id) {
     $form['#submit'][] = '_ia_multifields_content_form_submit';
     
     // Application of the settings
-    // How to do ?
-    // J'ai peut etre trouver il faut que j'aille chercher mes variables
-    // decoupes le nom du champs, et verifie si les champs en question
-    // existe dans le formulaire d'édition en cours ?
-    /*
+    /* How to do ?
+    J'ai peut etre trouver il faut que j'aille chercher mes variables, decoupes le nom du champs, et verifie si les champs en question existe dans le formulaire d'édition en cours ?
     if ($form['#id'] == 'node-form') {
       $simplify_fields= db_result(db_query("SELECT * FROM {variables} tn WHERE tn.tid = %d", $tid));
+      ?>
     }
     */
   }
