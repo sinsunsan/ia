@@ -1,5 +1,12 @@
 <?php 
 /**
+ * @file
+ * Module of common IA node form alterations
+ * 
+*/
+
+
+/**
  * Implementation of hook_form_alter.
  * 
  */

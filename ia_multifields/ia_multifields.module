@@ -1,5 +1,10 @@
 <?php 
-
+/**
+ * @file
+ * Allow to show only one field whith "add more" instead of two empty fields 
+ * When the cardinality of the field is set to unlimited
+ * 
+*/
 
 /**
  * Implementation of hook_form_alter.
@@ -48,6 +53,45 @@ function _ia_multifields_content_form_submit($form, &$form_state) {
   return TRUE;
 }
 
+
+/**
+ * Remove the second fields created by filefield 
+ * When the cardinality is set to unlimited
+ * 
+ * @param $fields An array of fields name 
+ *   
+ *
+*/
+function _ia_multiplefields_simplify(&$form, $fields) {
+  //dsm($fields);
+  foreach ($fields as $key => $field_name) {
+    //dsm($form[$field_name]);
+    
+    // Tested on normal filefield 
+    // If you upload 
+    // loop to test the existence of up to 20 fields and unset the empty one
+    // The user should use the add another button to add more.
+    for ($i=1 ; $i<20 ; $i++){
+      if (isset($form[$field_name][$i])) { // The numeric key exist
+        //dsm ($i);
+        $row = $form[$field_name][$i]['#default_value'];
+        //dsm ($row);
+        
+        // The case of multiple file fields
+        if ( isset($row['fid']) && $row['fid'] == 0){
+          //dsm ('file field multiple field hidden');
+          unset($form[$field_name][$i]);
+        }
+        // The case of multiple node reference field
+        if (!isset($row['nid'])) {
+            //dsm ('node reference multiple field hidden');
+           // We unset the sub array
+           unset($form[$field_name][$i]);
+        }
+      }//end of if  
+    }//end of for
+  }// end of foreach
+} 
 
 
 
