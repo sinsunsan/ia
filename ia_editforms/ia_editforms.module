@@ -13,7 +13,6 @@
 function ia_editforms_form_alter(&$form, $form_state, $form_id) {
   // For all node edit forms wrap the submit button in a div and make them float
   if ($form['#type'] = "form"){
-    // On met les boutons dans un div speciale et flottant
     $form['buttons']['submit']['#prefix'] = '<div class="ia_fields_group node-buttons">';
     $form['buttons']['delete']['#suffix'] = '</div>';
   }
